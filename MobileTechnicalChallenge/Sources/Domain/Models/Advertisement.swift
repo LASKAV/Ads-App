@@ -2,7 +2,7 @@ import Foundation
 
 
 struct Advertisement: Identifiable {
-    var id: String
+    let id = UUID()
     
     let photo: String
     let price: String
