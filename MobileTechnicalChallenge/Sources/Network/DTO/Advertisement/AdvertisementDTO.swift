@@ -1,3 +1,4 @@
+import Foundation
 
 
 struct AdvertisementDTO: Decodable {
@@ -12,5 +13,4 @@ struct AdvertisementDTO: Decodable {
     let score: Double
     let version: String
     let favourite: FavouriteDTO
-    
 }
