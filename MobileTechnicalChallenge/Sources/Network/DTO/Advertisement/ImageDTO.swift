@@ -1,11 +1,6 @@
 import Foundation
 
 
-struct ImageDTO: Decodable {
+struct ImageDTO: Codable {
     let url: String
-    let height: Int
-    let width: Int
-    let type: String
-    let scalable: Bool
 }
-
