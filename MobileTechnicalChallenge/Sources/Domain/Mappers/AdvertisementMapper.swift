@@ -15,12 +15,10 @@ import Foundation
 
 extension Advertisement {
     init(dto: AdvertisementDTO) {
-        self.id = dto.id
-        
         let baseURL = "https://images.finncdn.no/dynamic/480x360c/"
         self.photo = baseURL + dto.image.url
-        
-        let priceValue = Int(dto.price.value)
+
+        let priceValue = Int(dto.price?.value ?? 0)
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         self.price = formatter.string(from: NSNumber(value: priceValue)) ?? "\(priceValue)"
