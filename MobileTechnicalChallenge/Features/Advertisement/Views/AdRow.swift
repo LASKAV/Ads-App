@@ -1,58 +1,48 @@
 import SwiftUI
 import Kingfisher
 
+
+// MARK: AdRow
 struct AdRow: View {
     let ad: Advertisement
     
-    
     var body: some View {
         VStack(alignment: .center) {
-            AdImage(ad: ad)
-            AdDiscription(ad: ad)
+            AdImageFormView(photo: ad.photo, price: ad.price)
+            AdTitleView(title: ad.title, location: ad.location)
         }
         .padding(.top, 10)
     }
 }
 
-struct AdDiscription: View {
-    let ad: Advertisement
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            
-            Text(ad.location)
-                .font(.caption)
-                .foregroundColor(.secondary)
-            
-            Text(ad.title)
-                .font(.system(size: 14, weight: .medium))
-                .lineLimit(1)
 
-        }
-        .frame(width: 180, alignment: .leading)
-    }
-}
 
-struct AdImage: View {
-    let ad: Advertisement
+// MARK: AdImageFormView
+struct AdImageFormView: View {
+    let photo: String
+    let price: String
+    
+    let width: CGFloat = 180
+    let height: CGFloat = 155
     
     @State private var animateGradient = false
     private let impact = UIImpactFeedbackGenerator(style: .medium)
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            if let url = URL(string: ad.photo) {
+            if let url = URL(string: photo) {
                 KFImage(url)
                     .placeholder {
                         Color.gray.opacity(0.2)
                     }
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 180, height: 155)
+                    .frame(width: width, height: height)
                     .clipped()
                     .cornerRadius(8)
             } else {
                 Color.gray.opacity(0.2)
-                    .frame(width: 180, height: 155)
+                    .frame(width: width, height: height)
                     .cornerRadius(8)
             }
             
@@ -70,12 +60,12 @@ struct AdImage: View {
             }
             .frame(width: 22, height: 22)
             .padding([.top, .trailing], 10)
-            .frame(width: 180, height: 155, alignment: .topTrailing)
+            .frame(width: width, height: height, alignment: .topTrailing)
             .onTapGesture {
                 impact.impactOccurred()
             }
 
-            Text(ad.price + " kr")
+            Text(price + " kr")
                 .font(.subheadline)
                 .foregroundColor(.white)
                 .padding(.horizontal, 6)
@@ -84,11 +74,33 @@ struct AdImage: View {
                 .cornerRadius(10)
                 .padding([.bottom, .leading], 10)
         }
-        .frame(width: 180, height: 155)
+        .frame(width: width, height: height)
         .clipped()
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.gray.opacity(0.6), lineWidth: 1))
                     
+    }
+}
+
+
+
+// MARK: AdTitleView
+struct AdTitleView: View {
+    let title: String
+    let location: String
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            
+            Text(location)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            
+            Text(title)
+                .font(.system(size: 14, weight: .medium))
+                .lineLimit(1)
+
+        }
+        .frame(width: 180, alignment: .leading)
     }
 }
