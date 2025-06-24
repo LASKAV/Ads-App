@@ -16,23 +16,53 @@ struct AdsListView: View {
                         .padding()
                 } else {
                     ScrollView {
-                        LazyVGrid(columns: columns, spacing: 16) {
+                        LazyVGrid(columns: columns, spacing: 20) {
                             ForEach(viewModel.ads) { ad in
                                 AdRow(ad: ad)
                             }
                         }
-                        .padding()
+                        .padding(.horizontal, 10)
                     }
                 }
             }
-            .navigationTitle("Announcements")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    TitleView(title: "JAKTAK")
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "line.3.horizontal")
+                        }
+                    }
+            }
+            
         }
         .task {
             await viewModel.fetchAds()
+
         }
     }
 }
 
+struct TitleView: View {
+    let title: String
+    var body: some View {
+        Text(title)
+            .font(.system(size: 25, weight: .semibold))
+            .foregroundStyle(Color.primary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .bold()
+    }
+}
+
+
 #Preview {
     AdsListView()
 }
+
+
