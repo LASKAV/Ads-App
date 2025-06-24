@@ -3,17 +3,14 @@ import Kingfisher
 
 struct AdRow: View {
     let ad: Advertisement
-
+    
+    
     var body: some View {
         VStack(alignment: .center) {
             AdImage(ad: ad)
             AdDiscription(ad: ad)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10))
         }
-        .onTapGesture {
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.impactOccurred()
-        }
+        .padding(.top, 10)
     }
 }
 
@@ -21,15 +18,17 @@ struct AdDiscription: View {
     let ad: Advertisement
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
+            
+            Text(ad.location)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            
             Text(ad.title)
                 .font(.system(size: 14, weight: .medium))
                 .lineLimit(1)
 
-            Text(ad.location)
-                .font(.caption)
-                .foregroundColor(.secondary)
         }
-        .frame(width: 160, alignment: .leading)
+        .frame(width: 180, alignment: .leading)
     }
 }
 
@@ -37,6 +36,7 @@ struct AdImage: View {
     let ad: Advertisement
     
     @State private var animateGradient = false
+    private let impact = UIImpactFeedbackGenerator(style: .medium)
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
@@ -47,13 +47,32 @@ struct AdImage: View {
                     }
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 170, height: 120)
+                    .frame(width: 180, height: 155)
                     .clipped()
                     .cornerRadius(8)
             } else {
                 Color.gray.opacity(0.2)
-                    .frame(width: 170, height: 120)
+                    .frame(width: 180, height: 155)
                     .cornerRadius(8)
+            }
+            
+            ZStack {
+                Image(systemName: "heart")
+                    .resizable()
+                    .scaledToFill()
+                    .foregroundStyle(Color.white)
+        
+                Image(systemName: "heart.fill")
+                    .resizable()
+                    .scaledToFill()
+                    .foregroundStyle(Color.gray.opacity(0.2))
+                    .frame(width: 16, height: 16)
+            }
+            .frame(width: 22, height: 22)
+            .padding([.top, .trailing], 10)
+            .frame(width: 180, height: 155, alignment: .topTrailing)
+            .onTapGesture {
+                impact.impactOccurred()
             }
 
             Text(ad.price + " kr")
@@ -62,46 +81,14 @@ struct AdImage: View {
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
                 .background(Color.black.opacity(0.5))
-                .cornerRadius(4)
-                .padding(6)
+                .cornerRadius(10)
+                .padding([.bottom, .leading], 10)
         }
-        .frame(width: 170, height: 120)
+        .frame(width: 180, height: 155)
         .clipped()
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray.opacity(0.5), lineWidth: 1))
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray.opacity(0.6), lineWidth: 1))
                     
-    }
-}
-
-struct AdPreviewView: View {
-    let ad: Advertisement
-
-    var body: some View {
-        VStack(spacing: 16) {
-            if let url = URL(string: ad.photo) {
-                KFImage(url)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .cornerRadius(10)
-            }
-
-            Text(ad.title)
-                .font(.headline)
-
-            Text(ad.price + " kr")
-                .font(.title2)
-                .foregroundColor(.blue)
-
-            Text("Location: \(ad.location)")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-
-            Spacer()
-        }
-        .padding()
-        .presentationDetents([.fraction(0.4), .medium])
-        .presentationDragIndicator(.visible)
     }
 }
