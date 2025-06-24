@@ -1,7 +1,7 @@
 import Foundation
 
 
-struct getAds: Endpoint {
+struct GetAds: Endpoint {
     var method: HTTPMethod = .get
     var headers: [String: String]? = ["Accept": "application/json"]
 
