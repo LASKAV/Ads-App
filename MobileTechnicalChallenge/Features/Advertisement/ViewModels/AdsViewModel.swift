@@ -24,7 +24,7 @@ class AdsViewModel {
             let ads = response.items.map { Advertisement(dto: $0) }
             self.ads = ads
             
-            prefetchImages(urls: ads.compactMap { URL(string: $0.photo) })
+            await prefetchImages(urls: ads.compactMap { URL(string: $0.photo) })
             
             Logger.log("✅ Ads \(ads.count) received", level: .info)
              
@@ -35,8 +35,9 @@ class AdsViewModel {
 
         isLoading = false
     }
-    private func prefetchImages(urls: [URL]) {
+    private func prefetchImages(urls: [URL]) async {
             let prefetcher = ImagePrefetcher(urls: urls)
             prefetcher.start()
-        }
+            Logger.log("✅ Prefetch Images", level: .info)
+    }
 }
