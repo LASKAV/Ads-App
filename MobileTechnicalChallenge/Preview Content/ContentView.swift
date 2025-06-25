@@ -2,10 +2,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        AdsListView()
+        HomeScreen()
     }
 }
 
 #Preview {
     ContentView()
+        .environment(FavoritesStore())
 }
