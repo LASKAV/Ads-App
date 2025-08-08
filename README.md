@@ -1,4 +1,4 @@
-# Mobile Technical Challenge
+# Ads-App
 
 This is a SwiftUI mobile application developed as a technical challenge. The project includes:
 
